@@ -1,37 +1,51 @@
-import React, { PureComponent } from 'react';
+/* eslint-disable no-console */
+import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import { Text, Surface } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
+import NoteCardList from './NoteCardList';
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#323232',
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 5,
-  },
-  surface: {
-    padding: 15,
-    elevation: 3,
-  },
-  text: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    textAlign: 'center',
+  bottom: {
+    position: 'relative',
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
 
-export default class Home extends PureComponent {
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Surface style={styles.surface}>
-          <Text style={styles.text}>
-            Edite src/screens/Home/index.js para começar a trabalhar no seu app!
-          </Text>
-        </Surface>
-      </SafeAreaView>
-    );
+const myList = [
+  {
+    id: 1, title: 'ItemOne', message: 'Welcome', date: '01/2020',
+  },
+  {
+    id: 2, title: 'ItemTwo', message: 'Bye!', date: '01/2020',
+  },
+];
+
+const Home = () => {
+  function addNote() {
+    console.log(myList);
   }
-}
+
+  function refresh() {
+    console.log('Pressed refresh');
+  }
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <NoteCardList list={myList} />
+      <Appbar style={styles.bottom}>
+        <Appbar.Action
+          icon="plus"
+          onPress={addNote}
+        />
+        <Appbar.Action
+          icon="refresh"
+          onPress={refresh}
+        />
+      </Appbar>
+    </SafeAreaView>
+  );
+};
+
+export default Home;
