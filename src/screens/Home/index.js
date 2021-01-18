@@ -1,37 +1,84 @@
-import React, { PureComponent } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import { Text, Surface } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
+import NoteCardList from './NoteCardList';
+import { noteService } from '../../services';
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#323232',
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 5,
-  },
-  surface: {
-    padding: 15,
-    elevation: 3,
-  },
-  text: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    textAlign: 'center',
+  bottom: {
+    position: 'relative',
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
 
-export default class Home extends PureComponent {
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Surface style={styles.surface}>
-          <Text style={styles.text}>
-            Edite src/screens/Home/index.js para começar a trabalhar no seu app!
-          </Text>
-        </Surface>
-      </SafeAreaView>
-    );
+const Home = () => {
+  const [notes, setNotes] = useState(null);
+
+  function refresh() {
+    noteService.getAllNotes().then((data) => {
+      const newNotes = [];
+
+      data.forEach((snapshot) => {
+        const note = {
+          id: snapshot.id,
+          ...snapshot.data(),
+        };
+        newNotes.push(note);
+      });
+
+      setNotes(newNotes);
+    });
   }
-}
+
+  function deleteAll() {
+    noteService.deleteAll().then(() => {
+      console.log('deleting all notes');
+      refresh();
+    });
+  }
+
+  function addNote() {
+    const newNote = {
+      message: 'Digite algo',
+      date: new Date(Date.now()),
+    };
+
+    noteService.addNewNote(newNote).then((data) => {
+      console.log('Note\'s Id: ', data.id);
+      refresh();
+    });
+  }
+
+  useEffect(() => {
+    refresh();
+    return function clear() {
+      setNotes(null);
+    };
+  }, []);
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <NoteCardList refresh={refresh} list={notes} />
+      <Appbar style={styles.bottom}>
+        <Appbar.Action
+          icon="plus"
+          onPress={addNote}
+        />
+        <Appbar.Action
+          icon="refresh"
+          onPress={refresh}
+        />
+        <Appbar.Action
+          icon="delete"
+          onPress={deleteAll}
+        />
+      </Appbar>
+    </SafeAreaView>
+  );
+};
+
+export default Home;
