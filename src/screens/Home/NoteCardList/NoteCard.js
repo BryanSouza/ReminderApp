@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 import {
   Button, Card, Paragraph, TextInput,
 } from 'react-native-paper';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   card: {
@@ -33,7 +34,7 @@ const NoteCard = (props) => {
 
   return (
     <Card style={styles.card}>
-      <Card.Title title={content.title} subtitle={content.date} />
+      <Card.Title title={content.id} subtitle={moment(content.date).format('DD/MM/YY')} />
       <Card.Content>
         {!isEditing ? (
           <Paragraph>{currentMessage}</Paragraph>
