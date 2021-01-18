@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import {
-  ScrollView, Text, View,
+  ScrollView, View,
 } from 'react-native';
-import NoteCard from './NoteCard';
+import { Text } from 'react-native-paper';
+import NoteCard from './components/NoteCard';
 import { noteService } from '../../../services';
 
 const NoteCardList = (props) => {
@@ -13,16 +12,12 @@ const NoteCardList = (props) => {
 
   function onHandleSave(message, id) {
     console.log(`saving item: ${id}`);
-    noteService.updateNote({ message }, id).then((data) => {
-      refresh();
-    });
+    noteService.updateNote({ message }, id).then(refresh);
   }
 
   function onHandleDelete(id) {
     console.log(`deleting item: ${id}`);
-    noteService.deleteNote(id).then((data) => {
-      refresh();
-    });
+    noteService.deleteNote(id).then(refresh);
   }
 
   return (

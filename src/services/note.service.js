@@ -23,12 +23,13 @@ class NoteService {
 
   deleteAll() {
     return this.collection.get().then((data) => {
-      data.forEach((item) => {
-        this.collection.doc(item.id).delete();
+      data.forEach(({ id }) => {
+        this.collection.doc(id).delete();
       });
     });
   }
 }
 
 const noteService = new NoteService();
+
 export { noteService };

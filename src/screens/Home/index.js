@@ -1,19 +1,10 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import NoteCardList from './NoteCardList';
 import { noteService } from '../../services';
-
-const styles = StyleSheet.create({
-  bottom: {
-    position: 'relative',
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-});
+import styles from './styles';
 
 const Home = () => {
   const [notes, setNotes] = useState(null);
@@ -23,9 +14,11 @@ const Home = () => {
       const newNotes = [];
 
       data.forEach((snapshot) => {
+        const { message, date } = snapshot.data();
         const note = {
           id: snapshot.id,
-          ...snapshot.data(),
+          message,
+          date,
         };
         newNotes.push(note);
       });
@@ -47,8 +40,8 @@ const Home = () => {
       date: new Date(Date.now()),
     };
 
-    noteService.addNewNote(newNote).then((data) => {
-      console.log('Note\'s Id: ', data.id);
+    noteService.addNewNote(newNote).then(({ id }) => {
+      console.log('Note\'s Id: ', id);
       refresh();
     });
   }
@@ -61,7 +54,7 @@ const Home = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <NoteCardList refresh={refresh} list={notes} />
       <Appbar style={styles.bottom}>
         <Appbar.Action
