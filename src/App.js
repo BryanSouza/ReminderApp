@@ -7,7 +7,7 @@ export default class App extends PureComponent {
   render() {
     return (
       <ThemeProvider theme={DarkTheme}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle="light-content" backgroundColor="#121212" />
         <Home />
       </ThemeProvider>
     );

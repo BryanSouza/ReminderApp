@@ -19,7 +19,7 @@ const NoteCard = (props) => {
           <TextInput
             label=""
             value={currentMessage}
-            onChangeText={(text) => setCurrentMessage(text)}
+            onChangeText={setCurrentMessage}
             mode="flat"
             multiline
           />

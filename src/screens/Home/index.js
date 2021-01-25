@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import NoteCardList from './NoteCardList';
+import NoteCardList from './components/NoteCardList';
 import { noteService } from '../../services';
 import styles from './styles';
 
