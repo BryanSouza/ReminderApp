@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { Text } from 'react-native-paper';
 import NoteCard from './components/NoteCard';
-import { noteService } from '../../../services';
+import { noteService } from '../../../../services';
 
 const NoteCardList = (props) => {
   const { list, refresh } = props;
